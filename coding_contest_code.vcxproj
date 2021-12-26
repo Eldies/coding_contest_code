@@ -141,11 +141,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="arithmetic.h" />
     <ClInclude Include="Catch2\extras\catch_amalgamated.hpp" />
-    <ClInclude Include="header.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="arithmetic.cpp" />
     <ClCompile Include="Catch2\extras\catch_amalgamated.cpp" />
     <ClCompile Include="tests\test_arithmetic.cpp" />
   </ItemGroup>

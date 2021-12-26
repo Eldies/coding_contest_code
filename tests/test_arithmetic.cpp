@@ -1,4 +1,4 @@
-#include "../header.h"
+#include "../arithmetic.h"
 
 #define CATCH_CONFIG_MAIN
 #include "../Catch2/extras/catch_amalgamated.hpp"
@@ -59,5 +59,35 @@ TEST_CASE("modInverse") {
                 CHECK_THROWS(modInverse(i, MOD));
             }
         }
+    }
+}
+
+
+TEST_CASE("fast_pow") {
+    SECTION("with ints") {
+        CHECK(fast_pow(2, 1) == 2);
+        CHECK(fast_pow(2, 2) == 4);
+        CHECK(fast_pow(2, 60) == 1152921504606846976);
+    }
+    SECTION("it does not take forever to calculate large powers") {
+        auto start = std::chrono::system_clock::now();
+        CHECK(fast_pow(1, 1000) == 1);
+        auto end = std::chrono::system_clock::now();
+        REQUIRE(std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() < 1);
+
+        start = std::chrono::system_clock::now();
+        CHECK(fast_pow(1, 100000) == 1);
+        end = std::chrono::system_clock::now();
+        REQUIRE(std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() < 1);
+
+        start = std::chrono::system_clock::now();
+        CHECK(fast_pow(1, 10000000) == 1);
+        end = std::chrono::system_clock::now();
+        REQUIRE(std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() < 1);
+
+        start = std::chrono::system_clock::now();
+        CHECK(fast_pow(1, 1000000000) == 1);
+        end = std::chrono::system_clock::now();
+        REQUIRE(std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() < 1);
     }
 }

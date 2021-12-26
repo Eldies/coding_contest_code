@@ -1,4 +1,6 @@
-#include "header.h"
+#pragma once
+#include <cstdint>
+#include <stdexcept>
 
 int64_t gcdExtended(int64_t a, int64_t b, int64_t& x, int64_t& y)
 // ax + by = gcd(a,b).
@@ -36,4 +38,19 @@ int64_t modInverse(int64_t a, int64_t MOD)
 	if (g != 1)
 		throw std::invalid_argument("Number does not have opposite with this MOD");
 	return (x % MOD + MOD) % MOD;
+}
+
+
+int64_t fast_pow(int64_t n, int power) {
+	int64_t result = 1;
+
+	while (power > 0) {
+		if (power % 2 == 1) {
+			result = (result * n);
+		}
+		n = n * n;
+		power >>= 1;
+	}
+
+	return result;
 }
