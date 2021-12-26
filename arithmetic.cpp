@@ -1,7 +1,7 @@
 #include "header.h"
 
 int64_t gcdExtended(int64_t a, int64_t b, int64_t& x, int64_t& y)
-// ax + by= gcd(a,b).
+// ax + by = gcd(a,b).
 {
 	// Base Case
 	if (a == 0)
@@ -22,3 +22,18 @@ int64_t gcdExtended(int64_t a, int64_t b, int64_t& x, int64_t& y)
 	return gcd;
 }
 
+
+int64_t gcd(int64_t a, int64_t b) {
+	int64_t x, y;
+	return gcdExtended(a, b, x, y);
+}
+
+
+int64_t modInverse(int64_t a, int64_t MOD)
+{
+	int64_t x, y;
+	int64_t g = gcdExtended(a, MOD, x, y);
+	if (g != 1)
+		throw std::invalid_argument("Number does not have opposite with this MOD");
+	return (x % MOD + MOD) % MOD;
+}
