@@ -2,6 +2,7 @@
 #include <cstdint>
 #include <stdexcept>
 
+
 int64_t gcdExtended(int64_t a, int64_t b, int64_t& x, int64_t& y)
 // ax + by = gcd(a,b).
 {
@@ -41,8 +42,9 @@ int64_t modInverse(int64_t a, int64_t MOD)
 }
 
 
-int64_t fast_pow(int64_t n, int power) {
-	int64_t result = 1;
+template <typename T>
+T fast_pow(T n, int power) {
+	T result(1);
 
 	while (power > 0) {
 		if (power % 2 == 1) {
