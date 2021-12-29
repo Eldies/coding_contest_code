@@ -65,6 +65,7 @@ TEST_CASE("modInverse") {
 
 TEST_CASE("fast_pow") {
     SECTION("with ints") {
+        CHECK(fast_pow(2, 0) == 1);
         CHECK(fast_pow(2, 1) == 2);
         CHECK(fast_pow(2, 2) == 4);
         CHECK(fast_pow(2ll, 60) == 1152921504606846976);
@@ -90,18 +91,12 @@ TEST_CASE("fast_pow") {
         end = std::chrono::system_clock::now();
         REQUIRE(std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() < 1);
     }
-    SECTION("works with custom class") {
-        struct Modulo {
-            const int mod = 17;
-            int value;
-            Modulo(int value) : value(value % mod) {};
-            Modulo operator*(const Modulo& right) const { return Modulo(value * right.value); }
-            Modulo& operator=(const Modulo& right) { value = right.value; return *this; }
-        };
-
-        CHECK(fast_pow(Modulo(2), 2).value == 4);
-        CHECK(fast_pow(Modulo(2), 4).value == 16);
-        CHECK(fast_pow(Modulo(2), 5).value == 15);
-        CHECK(fast_pow(Modulo(2), 17).value == 2);
+    SECTION("works with computations by modulo") {
+        CHECK(fast_pow(Modular<17>(2), 0).value == 1);
+        CHECK(fast_pow(Modular<17>(2), 2).value == 4);
+        CHECK(fast_pow(Modular<17>(2), 4).value == 16);
+        CHECK(fast_pow(Modular<17>(2), 5).value == 15);
+        CHECK(fast_pow(Modular<17>(2), 17).value == 2);
+        CHECK(fast_pow(Modular<998244353>(2), 998244353 - 1).value == 1);
     }
 }

@@ -56,3 +56,19 @@ T fast_pow(T n, int power) {
 
 	return result;
 }
+
+
+template <uint64_t MOD> // should work for every MOD such that MOD^2 < 2^64
+struct Modular {
+	uint64_t value;
+
+	Modular(uint64_t value) : value(value% MOD) {}
+	Modular& operator=(const Modular& right) { value = right.value; return *this; }
+
+	Modular& operator+=(const Modular& right) { value = (value + right.value) % MOD; return *this; }
+	Modular& operator*=(const Modular& right) { value = (value * right.value) % MOD; return *this; }
+	Modular& operator-=(const Modular& right) { value = (MOD + value - right.value) % MOD; return *this; }
+	Modular operator+(const Modular& right) const { Modular result(value); result += right; return result; }
+	Modular operator*(const Modular& right) const { Modular result(value); result *= right; return result; }
+	Modular operator-(const Modular& right) const { Modular result(value); result -= right; return result; }
+};
