@@ -100,3 +100,57 @@ TEST_CASE("fast_pow") {
         CHECK(fast_pow(Modular<998244353>(2), 998244353 - 1).value == 1);
     }
 }
+
+
+TEST_CASE("Modular") {
+    SECTION("constructor") {
+        CHECK(Modular<7>(0).value == 0);
+        CHECK(Modular<7>(2).value == 2);
+        CHECK(Modular<7>(77777).value == 0);
+        CHECK(Modular<7>(77778).value == 1);
+    }
+    SECTION("operator+=") {
+        Modular<7> value(2);
+        CHECK(value.value == 2);
+        value += Modular<7>(0);
+        CHECK(value.value == 2);
+        value += Modular<7>(2);
+        CHECK(value.value == 4);
+        value += 704;
+        CHECK(value.value == 1);
+    }
+    SECTION("operator-=") {
+        Modular<7> value(2);
+        CHECK(value.value == 2);
+        value -= Modular<7>(0);
+        CHECK(value.value == 2);
+        value -= Modular<7>(2);
+        CHECK(value.value == 0);
+        value -= 704;
+        CHECK(value.value == 3);
+    }
+    SECTION("operator*=") {
+        Modular<7> value(2);
+        CHECK(value.value == 2);
+        value *= Modular<7>(2);
+        CHECK(value.value == 4);
+        value *= 704;
+        CHECK(value.value == 2);
+    }
+    SECTION("operator+") {
+        CHECK((Modular<7>(2) + Modular<7>(0)).value == 2);
+        CHECK((Modular<7>(2) + Modular<7>(3)).value == 5);
+        CHECK((Modular<7>(2) + 704).value == 6);
+    }
+    SECTION("operator-") {
+        CHECK((Modular<7>(2) - Modular<7>(0)).value == 2);
+        CHECK((Modular<7>(2) - Modular<7>(3)).value == 6);
+        CHECK((Modular<7>(2) - 704).value == 5);
+    }
+    SECTION("operator*") {
+        CHECK((Modular<7>(2) * Modular<7>(0)).value == 0);
+        CHECK((Modular<7>(2) * Modular<7>(1)).value == 2);
+        CHECK((Modular<7>(2) * Modular<7>(3)).value == 6);
+        CHECK((Modular<7>(2) * 704).value == 1);
+    }
+}
