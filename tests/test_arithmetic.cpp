@@ -153,4 +153,19 @@ TEST_CASE("Modular") {
         CHECK((Modular<7>(2) * Modular<7>(3)).value == 6);
         CHECK((Modular<7>(2) * 704).value == 1);
     }
+    SECTION("operator/=") {
+        Modular<7> value(2);
+        CHECK(value.value == 2);
+        value /= Modular<7>(3);
+        CHECK(value.value == 3);
+        value *= Modular<7>(3);
+        CHECK(value.value == 2);
+    }
+    SECTION("operator/") {
+        CHECK_THROWS((Modular<7>(2) / Modular<7>(0)));
+        CHECK((Modular<7>(2) / Modular<7>(1)).value == 2);
+        CHECK((Modular<7>(2) / Modular<7>(3)).value == 3);
+        CHECK((Modular<7>(2) / 6).value == 5);
+        CHECK(((Modular<1000000007>(1) / Modular<1000000007>(22222)) * 22222).value == 1);
+    }
 }
