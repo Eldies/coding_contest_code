@@ -1,6 +1,7 @@
 #pragma once
 #include <cstdint>
 #include <stdexcept>
+#include <string>
 
 
 int64_t gcdExtended(int64_t a, int64_t b, int64_t& x, int64_t& y) 
@@ -74,7 +75,7 @@ struct Modular {
 		int64_t x, y;
 		int64_t g = gcdExtended(value, MOD, x, y);
 		if (g != 1)
-			throw std::invalid_argument("Number does not have opposite with this MOD");
+			throw std::invalid_argument("Number " + std::to_string(value) + " does not have opposite with MOD " + std::to_string(MOD));
 		if (x < 0) {
 			x += ((std::abs(x) / MOD) + 1) * MOD;
 		}
