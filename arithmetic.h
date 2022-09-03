@@ -32,16 +32,6 @@ int64_t gcd(int64_t a, int64_t b) {
 }
 
 
-int64_t modInverse(int64_t a, int64_t MOD)
-{
-	int64_t x, y;
-	int64_t g = gcdExtended(a, MOD, x, y);
-	if (g != 1)
-		throw std::invalid_argument("Number does not have opposite with this MOD");
-	return (x % MOD + MOD) % MOD;
-}
-
-
 template <typename T>
 T fast_pow(T n, int power) {
 	T result(1);
@@ -72,9 +62,18 @@ struct Modular {
 	Modular operator*(const Modular& right) const { Modular result(value); result *= right; return result; }
 	Modular operator-(const Modular& right) const { Modular result(value); result -= right; return result; }
 
-	Modular& operator/=(const Modular& right) {
-		value = (value * modInverse(right.value, MOD)) % MOD;
-		return *this; 
-	}
+	Modular& operator/=(const Modular& right) { return (*this *= right.inverse()); }
 	Modular operator/(const Modular& right) const { Modular result(value); result /= right; return result; }
+
+	Modular inverse() const
+	{
+		int64_t x, y;
+		int64_t g = gcdExtended(value, MOD, x, y);
+		if (g != 1)
+			throw std::invalid_argument("Number does not have opposite with this MOD");
+		if (x < 0) {
+			x += ((std::abs(x) / MOD) + 1) * MOD;
+		}
+		return Modular(x);
+	}
 };

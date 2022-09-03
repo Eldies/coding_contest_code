@@ -36,32 +36,6 @@ TEST_CASE("gcd") {
     }
 }
 
-TEST_CASE("modInverse") {
-    SECTION("opposite of 1 is 1") {
-        CHECK(modInverse(1, 5) == 1);
-    }
-    SECTION("correctly finds opposite for every positive number with prime MOD") {
-        int64_t MOD = 17;
-        for (int64_t i = 1; i < MOD; ++i) {
-            auto opposite = modInverse(i, MOD);
-            CHECK((opposite * i) % MOD == 1);
-        }
-    }
-    SECTION("with non prime MOD number either has the oposite or has gcd with MOD > 1") {
-        int64_t MOD = 18;
-        for (int64_t i = 1; i < MOD; ++i) {
-            auto g = gcd(i, MOD);
-            if (g == 1) {
-                auto opposite = modInverse(i, MOD);
-                CHECK((opposite * i) % MOD == 1);
-            }
-            else {
-                CHECK_THROWS(modInverse(i, MOD));
-            }
-        }
-    }
-}
-
 
 TEST_CASE("fast_pow") {
     SECTION("with ints") {
@@ -167,5 +141,33 @@ TEST_CASE("Modular") {
         CHECK((Modular<7>(2) / Modular<7>(3)).value == 3);
         CHECK((Modular<7>(2) / 6).value == 5);
         CHECK(((Modular<1000000007>(1) / Modular<1000000007>(22222)) * 22222).value == 1);
+    }
+    SECTION("inverse") {
+        SECTION("0 has no opposite") {
+            CHECK_THROWS(Modular<5>(0).inverse());
+        }
+        SECTION("opposite of 1 is 1") {
+            CHECK(Modular<5>(1).inverse().value == 1);
+        }
+        SECTION("correctly finds opposite for every positive number with prime MOD") {
+            const int64_t MOD = 17;
+            for (int64_t i = 1; i < MOD; ++i) {
+                auto opposite = Modular<MOD>(i).inverse();
+                CHECK((opposite * i).value == 1);
+            }
+        }
+        SECTION("with non prime MOD number either has the oposite or has gcd with MOD > 1") {
+            const int64_t MOD = 18;
+            for (int64_t i = 1; i < MOD; ++i) {
+                auto g = gcd(i, MOD);
+                if (g == 1) {
+                    auto opposite = Modular<MOD>(i).inverse();
+                    CHECK((opposite * i).value == 1);
+                }
+                else {
+                    CHECK_THROWS(Modular<MOD>(i).inverse());
+                }
+            }
+        }
     }
 }
