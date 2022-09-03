@@ -2,6 +2,7 @@
 #include <cstdint>
 #include <stdexcept>
 #include <string>
+#include <vector>
 
 
 int64_t gcdExtended(int64_t a, int64_t b, int64_t& x, int64_t& y) 
@@ -80,5 +81,30 @@ struct Modular {
 			x += ((std::abs(x) / MOD) + 1) * MOD;
 		}
 		return Modular(x);
+	}
+};
+
+
+template <uint64_t MOD>
+class ModularFactorials {
+	std::vector<Modular<MOD>> factorials;
+	ModularFactorials() : factorials(1, 1) {}
+public:
+	static ModularFactorials& instance() {
+		static ModularFactorials mf;
+		return mf;
+	}
+	Modular<MOD> factorial(int value) {
+		// O(1) + amortized O(maximal value)
+		if (value >= factorials.size()) {
+			for (int i = factorials.size(); i <= value; ++i) {
+				factorials.push_back(factorials.back() * i);
+			}
+		}
+		return factorials[value];
+	}
+	Modular<MOD> combinations(int n, int k) {
+		// O(log(MOD)) + amortized O(maximal n)
+		return factorial(n) / (factorial(k) * factorial(n - k));
 	}
 };

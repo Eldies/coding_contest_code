@@ -3,6 +3,8 @@
 #define CATCH_CONFIG_MAIN
 #include "../Catch2/extras/catch_amalgamated.hpp"
 
+#include <type_traits>
+
 
 TEST_CASE("gcdExtended") {
     int64_t x, y;
@@ -169,5 +171,41 @@ TEST_CASE("Modular") {
                 }
             }
         }
+    }
+}
+
+TEST_CASE("ModularFactorials") {
+    SECTION("is singleton") {
+        // checking that first computing of 1000000! takes time
+        auto start = std::chrono::system_clock::now();
+        ModularFactorials<1000000007>::instance().factorial(1000000);
+        auto end = std::chrono::system_clock::now();
+        REQUIRE(std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() > 50);
+
+        // checking that second computing of 1000000! does not take a lot of time
+        start = std::chrono::system_clock::now();
+        ModularFactorials<1000000007>::instance().factorial(1000000);
+        end = std::chrono::system_clock::now();
+        REQUIRE(std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() < 1);
+    }
+    SECTION("is not constructible") {
+        CHECK(std::is_constructible<ModularFactorials<1000000007>>::value == false);
+    }
+    SECTION("first few factorials") {
+        CHECK(ModularFactorials<1000000007>::instance().factorial(0).value == 1);
+        CHECK(ModularFactorials<1000000007>::instance().factorial(1).value == 1);
+        CHECK(ModularFactorials<1000000007>::instance().factorial(2).value == 2);
+        CHECK(ModularFactorials<1000000007>::instance().factorial(3).value == 6);
+        CHECK(ModularFactorials<1000000007>::instance().factorial(4).value == 24);
+        CHECK(ModularFactorials<1000000007>::instance().factorial(5).value == 120);
+        CHECK(ModularFactorials<1000000007>::instance().factorial(6).value == 720);
+    }
+    SECTION("combinations") {
+        CHECK(ModularFactorials<1000000007>::instance().combinations(4, 0).value == 1);
+        CHECK(ModularFactorials<1000000007>::instance().combinations(4, 1).value == 4);
+        CHECK(ModularFactorials<1000000007>::instance().combinations(4, 2).value == 6);
+        CHECK(ModularFactorials<1000000007>::instance().combinations(4, 3).value == 4);
+        CHECK(ModularFactorials<1000000007>::instance().combinations(4, 4).value == 1);
+        CHECK(ModularFactorials<1000000007>::instance().combinations(50, 6).value == (50ll * 49ll * 48ll * 47ll * 46ll * 45ll) / (1 * 2 * 3 * 4 * 5 * 6));
     }
 }
