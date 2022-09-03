@@ -3,8 +3,9 @@
 #include <stdexcept>
 
 
-int64_t gcdExtended(int64_t a, int64_t b, int64_t& x, int64_t& y)
+int64_t gcdExtended(int64_t a, int64_t b, int64_t& x, int64_t& y) 
 // ax + by = gcd(a,b).
+// O(log(min(a,b)))
 {
 	// Base Case
 	if (a == 0)
@@ -27,6 +28,7 @@ int64_t gcdExtended(int64_t a, int64_t b, int64_t& x, int64_t& y)
 
 
 int64_t gcd(int64_t a, int64_t b) {
+	// O(log(min(a,b)))
 	int64_t x, y;
 	return gcdExtended(a, b, x, y);
 }
@@ -34,6 +36,7 @@ int64_t gcd(int64_t a, int64_t b) {
 
 template <typename T>
 T fast_pow(T n, int power) {
+	// O(log(power))
 	T result(1);
 
 	while (power > 0) {
@@ -53,20 +56,21 @@ struct Modular {
 	uint64_t value;
 
 	Modular(uint64_t value) : value(value % MOD) {}
-	Modular& operator=(const Modular& right) { value = right.value; return *this; }
+	Modular& operator=(const Modular& right) { value = right.value; return *this; } // O(1)
 
-	Modular& operator+=(const Modular& right) { value = (value + right.value) % MOD; return *this; }
-	Modular& operator*=(const Modular& right) { value = (value * right.value) % MOD; return *this; }
-	Modular& operator-=(const Modular& right) { value = (MOD + value - right.value) % MOD; return *this; }
-	Modular operator+(const Modular& right) const { Modular result(value); result += right; return result; }
-	Modular operator*(const Modular& right) const { Modular result(value); result *= right; return result; }
-	Modular operator-(const Modular& right) const { Modular result(value); result -= right; return result; }
+	Modular& operator+=(const Modular& right) { value = (value + right.value) % MOD; return *this; } // O(1)
+	Modular& operator*=(const Modular& right) { value = (value * right.value) % MOD; return *this; } // O(1)
+	Modular& operator-=(const Modular& right) { value = (MOD + value - right.value) % MOD; return *this; } // O(1)
+	Modular operator+(const Modular& right) const { Modular result(value); result += right; return result; } // O(1)
+	Modular operator*(const Modular& right) const { Modular result(value); result *= right; return result; } // O(1)
+	Modular operator-(const Modular& right) const { Modular result(value); result -= right; return result; } // O(1)
 
-	Modular& operator/=(const Modular& right) { return (*this *= right.inverse()); }
-	Modular operator/(const Modular& right) const { Modular result(value); result /= right; return result; }
+	Modular& operator/=(const Modular& right) { return (*this *= right.inverse()); } // O(log(right.value))
+	Modular operator/(const Modular& right) const { Modular result(value); result /= right; return result; } // O(log(right.value))
 
 	Modular inverse() const
 	{
+		// O(log(value))
 		int64_t x, y;
 		int64_t g = gcdExtended(value, MOD, x, y);
 		if (g != 1)
