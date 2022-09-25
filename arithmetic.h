@@ -95,7 +95,7 @@ public:
 		return mf;
 	}
 	Modular<MOD> factorial(int value) {
-		// O(1) + amortized O(maximal value)
+		// O(1) per request + O(max(value)) once
 		if (value >= factorials.size()) {
 			for (int i = factorials.size(); i <= value; ++i) {
 				factorials.push_back(factorials.back() * i);
@@ -104,7 +104,7 @@ public:
 		return factorials[value];
 	}
 	Modular<MOD> combinations(int n, int k) {
-		// O(log(MOD)) + amortized O(maximal n)
+		// O(log(MOD)) per request + O(max(n)) once
 		return factorial(n) / (factorial(k) * factorial(n - k));
 	}
 };
