@@ -142,10 +142,12 @@
   <ItemGroup>
     <ClInclude Include="arithmetic.h" />
     <ClInclude Include="Catch2\extras\catch_amalgamated.hpp" />
+    <ClInclude Include="numerical.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Catch2\extras\catch_amalgamated.cpp" />
     <ClCompile Include="tests\test_arithmetic.cpp" />
+    <ClCompile Include="tests\test_numerical.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
