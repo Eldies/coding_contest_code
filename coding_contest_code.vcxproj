@@ -140,9 +140,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="arithmetic.h" />
+    <ClInclude Include="src\arithmetic.h" />
     <ClInclude Include="Catch2\extras\catch_amalgamated.hpp" />
-    <ClInclude Include="numerical.h" />
+    <ClInclude Include="src\numerical.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Catch2\extras\catch_amalgamated.cpp" />

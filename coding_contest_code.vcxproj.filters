@@ -24,10 +24,10 @@
     <ClInclude Include="Catch2\extras\catch_amalgamated.hpp">
       <Filter>Catch2</Filter>
     </ClInclude>
-    <ClInclude Include="arithmetic.h">
+    <ClInclude Include="src\arithmetic.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="numerical.h">
+    <ClInclude Include="src\numerical.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,4 +1,4 @@
-#include "../numerical.h"
+#include "../src/numerical.h"
 
 #define CATCH_CONFIG_MAIN
 #include "../Catch2/extras/catch_amalgamated.hpp"

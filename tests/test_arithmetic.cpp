@@ -1,4 +1,4 @@
-#include "../arithmetic.h"
+#include "../src/arithmetic.h"
 
 #define CATCH_CONFIG_MAIN
 #include "../Catch2/extras/catch_amalgamated.hpp"
