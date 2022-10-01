@@ -42,10 +42,10 @@
       <Filter>Catch2</Filter>
     </ClCompile>
     <ClCompile Include="tests\test_numerical.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Test Files</Filter>
     </ClCompile>
     <ClCompile Include="tests\test_data_structures.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Test Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
