@@ -1,5 +1,6 @@
 #pragma once
 #include <functional>
+#include <cmath>
 
 
 double minimum_ternary_search(double left, double right, std::function<double(double)> func, double precision = 1e-7) {
