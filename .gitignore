@@ -2,3 +2,4 @@ x64/
 coding_contest_code.log
 *.tlog
 Release/
+coding_contest_code.vcxproj.user
