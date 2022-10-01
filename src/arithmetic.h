@@ -94,6 +94,7 @@ public:
 		static ModularFactorials mf;
 		return mf;
 	}
+	ModularFactorials(const ModularFactorials&) = delete;
 	Modular<MOD> factorial(int value) {
 		// O(1) per request + O(max(value)) once
 		if (value >= factorials.size()) {

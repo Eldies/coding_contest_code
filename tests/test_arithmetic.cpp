@@ -176,17 +176,21 @@ TEST_CASE("Modular") {
 
 TEST_CASE("ModularFactorials") {
     SECTION("is singleton") {
-        // checking that first computing of 1000000! takes time
+        // computing factorials until it takes 10 milliseconds
         auto start = std::chrono::system_clock::now();
-        ModularFactorials<1000000007>::instance().factorial(1000000);
+        int n = 1000;
         auto end = std::chrono::system_clock::now();
-        REQUIRE(std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() > 50);
+        do {
+            n *= 2;
+            ModularFactorials<1000000007>::instance().factorial(n);
+            end = std::chrono::system_clock::now();
+        } while (std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() <= 10);
 
-        // checking that second computing of 1000000! does not take a lot of time
+        // checking that second computing of n! does not take time at all
         start = std::chrono::system_clock::now();
-        ModularFactorials<1000000007>::instance().factorial(1000000);
+        ModularFactorials<1000000007>::instance().factorial(n);
         end = std::chrono::system_clock::now();
-        REQUIRE(std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() < 1);
+        REQUIRE(std::chrono::duration_cast<std::chrono::microseconds>(end - start).count() <= 1);
     }
     SECTION("is not constructible") {
         CHECK(std::is_constructible<ModularFactorials<1000000007>>::value == false);
