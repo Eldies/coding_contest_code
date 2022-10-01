@@ -98,7 +98,7 @@ public:
 	Modular<MOD> factorial(int value) {
 		// O(1) per request + O(max(value)) once
 		if (value >= factorials.size()) {
-			for (int i = factorials.size(); i <= value; ++i) {
+			for (size_t i = factorials.size(); i <= value; ++i) {
 				factorials.push_back(factorials.back() * i);
 			}
 		}
