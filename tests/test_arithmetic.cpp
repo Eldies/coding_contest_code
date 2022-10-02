@@ -176,19 +176,15 @@ TEST_CASE("Modular") {
 
 TEST_CASE("ModularFactorials") {
     SECTION("is singleton") {
-        // computing factorials until it takes 10 milliseconds
+        // checking that computing of 100000! takes some time
         auto start = std::chrono::system_clock::now();
-        int n = 1000;
+        ModularFactorials<1000000007>::instance().factorial(100000);
         auto end = std::chrono::system_clock::now();
-        do {
-            n *= 2;
-            ModularFactorials<1000000007>::instance().factorial(n);
-            end = std::chrono::system_clock::now();
-        } while (std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() <= 10);
+        REQUIRE(std::chrono::duration_cast<std::chrono::microseconds>(end - start).count() > 50);
 
-        // checking that second computing of n! does not take time at all
+        // checking that second computing of 100000! does not take time at all
         start = std::chrono::system_clock::now();
-        ModularFactorials<1000000007>::instance().factorial(n);
+        ModularFactorials<1000000007>::instance().factorial(100000);
         end = std::chrono::system_clock::now();
         REQUIRE(std::chrono::duration_cast<std::chrono::microseconds>(end - start).count() <= 1);
     }
