@@ -3,8 +3,6 @@
 #define CATCH_CONFIG_MAIN
 #include "../Catch2/extras/catch_amalgamated.hpp"
 
-#include <type_traits>
-
 
 TEST_CASE("gcdExtended") {
     int64_t x, y;

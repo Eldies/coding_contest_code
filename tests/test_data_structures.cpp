@@ -3,8 +3,6 @@
 #define CATCH_CONFIG_MAIN
 #include "../Catch2/extras/catch_amalgamated.hpp"
 
-#include <type_traits>
-
 
 SCENARIO("DisjointSetUnion") {
     GIVEN("freshly constructed DisjointSetUnion") {
@@ -79,4 +77,34 @@ SCENARIO("DisjointSetUnion") {
             }
         }
     }
+}
+
+
+TEST_CASE("DisjointSetUnion speed") {
+    std::random_device rd;
+    std::mt19937 gen(rd());
+
+    auto measure_time_for_size = [&gen](int size) {
+        std::uniform_int_distribution<> distrib(0, size - 1);
+
+        auto start = std::chrono::system_clock::now();
+        for (int n = 0; n < 100; ++n) {
+            DisjointSetUnion dsu(size);
+            for (int i = 0; i < size; ++i) {
+                dsu.join_sets(distrib(gen), distrib(gen));
+            }
+            for (int i = 0; i < size; ++i) {
+                dsu.find_set(i);
+            }
+
+        }
+        auto end = std::chrono::system_clock::now();
+
+        return std::chrono::duration_cast<std::chrono::microseconds>(end - start).count();
+    };
+
+    auto time100 = measure_time_for_size(100);
+    auto time10000 = measure_time_for_size(10000);
+
+    CHECK(time10000 == Catch::Approx(time100 * 100).epsilon(0.2));
 }
