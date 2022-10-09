@@ -138,12 +138,14 @@
     <ClInclude Include="src\arithmetic.h" />
     <ClInclude Include="Catch2\extras\catch_amalgamated.hpp" />
     <ClInclude Include="src\data_structures.h" />
+    <ClInclude Include="src\graphs.h" />
     <ClInclude Include="src\numerical.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Catch2\extras\catch_amalgamated.cpp" />
     <ClCompile Include="tests\test_arithmetic.cpp" />
     <ClCompile Include="tests\test_data_structures.cpp" />
+    <ClCompile Include="tests\test_graphs.cpp" />
     <ClCompile Include="tests\test_numerical.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
