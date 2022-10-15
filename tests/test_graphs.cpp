@@ -43,12 +43,54 @@ SCENARIO("Graph trversal") {
                 [&visited_edges](std::pair<size_t, size_t> edge, bool b) { visited_edges.push_back(std::make_pair(edge, b)); }
             );
 
-            THEN("verexes visited in correct order") {
+            THEN("vertexes visited in correct order") {
                 CHECK(visited_vertexes == expected_vertexes);
             }
             THEN("edges visited in correct order") {
                 CHECK(visited_edges == expected_edges);
             }
         }
+
+        WHEN("Doing Depth-first search from vertex 0") {
+            edges_vector_type expected_edges = {
+                { { 0, 1 }, true },
+                { { 1, 2 }, true },
+                { { 2, 1 }, false },
+                { { 2, 6 }, true },
+                { { 6, 5 }, true },
+                { { 5, 1 }, false },
+                { { 5, 6 }, false },
+                { { 2, 4 }, true },
+                { { 4, 5 }, false },
+                { { 1, 4 }, false }
+            };
+
+            std::vector<size_t> entered_vertexes;
+            std::vector<size_t> exited_vertexes;
+            std::vector<size_t> visited_vertexes;
+            edges_vector_type visited_edges;
+            dfs(
+                0,
+                neighbours,
+                [&entered_vertexes](size_t v) {entered_vertexes.push_back(v); },
+                [&exited_vertexes](size_t v) {exited_vertexes.push_back(v); },
+                [&visited_vertexes](size_t v) {visited_vertexes.push_back(v); },
+                [&visited_edges](std::pair<size_t, size_t> edge, bool b) { visited_edges.push_back(std::make_pair(edge, b)); }
+            );
+
+            THEN("vertexes entered in correct order") {
+                CHECK(entered_vertexes == std::vector<size_t>{0, 1, 2, 6, 5, 4});
+            }
+            THEN("vertexes exited in correct order") {
+                CHECK(exited_vertexes == std::vector<size_t>{5, 6, 4, 2, 1, 0});
+            }
+            THEN("vertexes visited in correct order") {
+                CHECK(visited_vertexes == std::vector<size_t>{0, 1, 2, 6, 5, 6, 2, 4, 2, 1, 0});
+            }
+            THEN("edges visited in correct order") {
+                CHECK(visited_edges == expected_edges);
+            }
+        }
+
     }
 }
