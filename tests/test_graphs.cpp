@@ -39,8 +39,9 @@ SCENARIO("Graph trversal") {
             bfs(
                 0,
                 neighbours,
-                [&visited_vertexes](size_t v) {visited_vertexes.push_back(v); },
-                [&visited_edges](std::pair<size_t, size_t> edge, bool b) { visited_edges.push_back(std::make_pair(edge, b)); }
+                TraverseCallbacks()
+                .set_visit_callback([&visited_vertexes](size_t v) {visited_vertexes.push_back(v); })
+                .set_edge_callback([&visited_edges](std::pair<size_t, size_t> edge, bool b) { visited_edges.push_back(std::make_pair(edge, b)); })
             );
 
             THEN("vertexes visited in correct order") {
@@ -72,10 +73,11 @@ SCENARIO("Graph trversal") {
             dfs(
                 0,
                 neighbours,
-                [&entered_vertexes](size_t v) {entered_vertexes.push_back(v); },
-                [&exited_vertexes](size_t v) {exited_vertexes.push_back(v); },
-                [&visited_vertexes](size_t v) {visited_vertexes.push_back(v); },
-                [&visited_edges](std::pair<size_t, size_t> edge, bool b) { visited_edges.push_back(std::make_pair(edge, b)); }
+                TraverseCallbacks()
+                .set_enter_callback([&entered_vertexes](size_t v) {entered_vertexes.push_back(v); })
+                .set_exit_callback([&exited_vertexes](size_t v) {exited_vertexes.push_back(v); })
+                .set_visit_callback([&visited_vertexes](size_t v) {visited_vertexes.push_back(v); })
+                .set_edge_callback([&visited_edges](std::pair<size_t, size_t> edge, bool b) { visited_edges.push_back(std::make_pair(edge, b)); })
             );
 
             THEN("vertexes entered in correct order") {
