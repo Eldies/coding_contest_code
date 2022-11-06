@@ -89,12 +89,12 @@ template <uint64_t MOD>
 class ModularFactorials {
 	std::vector<Modular<MOD>> factorials;
 	ModularFactorials() : factorials(1, 1) {}
+	ModularFactorials(const ModularFactorials&) = delete;
 public:
 	static ModularFactorials& instance() {
 		static ModularFactorials mf;
 		return mf;
 	}
-	ModularFactorials(const ModularFactorials&) = delete;
 	Modular<MOD> factorial(int value) {
 		// O(1) per request + O(max(value)) once
 		if (value >= factorials.size()) {
