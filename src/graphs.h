@@ -58,6 +58,7 @@ void dfs(
 	const std::vector<std::vector<size_t>>& neighbours,
 	TraverseCallbacks callbacks
 ) {
+	// O(number of edges)
 	std::vector<size_t> visited(neighbours.size(), false);
 	std::vector<size_t> next_neighbour_to_visit(neighbours.size(), 0);
 	std::vector<size_t> stack;
@@ -93,4 +94,29 @@ void dfs(
 			next_neighbour_to_visit[vertex]++;
 		}
 	}
+}
+
+
+struct Tree {
+	std::vector<std::vector<size_t>> children;
+	std::vector<int> parents;
+	std::vector<int> depth;
+};
+
+
+auto generate_tree_dfs(const std::vector<std::vector<size_t>>& neighbours) {
+	// assumes all vertexes are reachable from 0
+	// O(number of edges)
+	std::vector<std::vector<size_t>> children(neighbours.size());
+	std::vector<int> parents(neighbours.size(), -1);
+	std::vector<int> depth(neighbours.size(), 0);
+	auto callback = [&](std::pair<size_t, size_t> edge, bool is_forward) {
+		if (is_forward) {
+			children[edge.first].push_back(edge.second);
+			parents[edge.second] = edge.first;
+			depth[edge.second] = depth[edge.first] + 1;
+		}
+	};
+	dfs(0, neighbours, TraverseCallbacks().set_edge_callback(callback));
+	return Tree{ children, parents, depth };
 }

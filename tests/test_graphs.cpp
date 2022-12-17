@@ -5,7 +5,7 @@
 #include "../Catch2/extras/catch_amalgamated.hpp"
 
 
-SCENARIO("Graph trversal") {
+SCENARIO("Graph traversal") {
     GIVEN("graph as list of neighbours for every vertex") {
         std::vector<std::vector<size_t>> neighbours = {
             {1},
@@ -94,5 +94,45 @@ SCENARIO("Graph trversal") {
             }
         }
 
+    }
+}
+
+
+SCENARIO("creating tree from graph") {
+    GIVEN("graph as list of neighbours for every vertex") {
+        std::vector<std::vector<size_t>> neighbours = {
+            {1},
+            {2, 4},
+            {1, 6, 4},
+            {1},
+            {5},
+            {1, 6},
+            {5}
+        };
+    }
+}
+
+
+TEST_CASE("generate_tree_dfs") {
+    SECTION("creating tree from graph") {
+        std::vector<std::vector<size_t>> neighbours = {
+            {1, 3},
+            {2, 4},
+            {1, 6, 4},
+            {1},
+            {5},
+            {1, 6},
+            {5}
+        };
+        Tree tree = generate_tree_dfs(neighbours);
+        REQUIRE(tree.children[0] == std::vector<size_t>({ 1, 3 }));
+        REQUIRE(tree.children[1] == std::vector<size_t>({ 2 }));
+        REQUIRE(tree.children[2] == std::vector<size_t>({ 6, 4 }));
+        REQUIRE(tree.children[3] == std::vector<size_t>({ }));
+        REQUIRE(tree.children[4] == std::vector<size_t>({ }));
+        REQUIRE(tree.children[5] == std::vector<size_t>({ }));
+        REQUIRE(tree.children[6] == std::vector<size_t>({ 5 }));
+        REQUIRE(tree.depth == std::vector<int>({ 0, 1, 2, 1, 3, 4, 3 }));
+        REQUIRE(tree.parents == std::vector<int>({ -1, 0, 1, 0, 2, 6, 2 }));
     }
 }
